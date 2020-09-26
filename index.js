@@ -10,13 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function getCategories() {
-	fetch(categoryEndPoint).then((res) => res.json()).then((cat) => {
-		console.log(cat);
-	});
+	fetch(categoryEndPoint)
+		.then(res => res.json())
+		.then(cat => {
+			cat.data.forEach(category => {
+				const categoryMaker = `
+				<h3> ${category.attributes.name} </h3>
+				 `;
+
+				document.querySelector('#category-container').innerHTML += categoryMaker
+			})
+			console.log(cat);
+		});
 }
 
 function getNotes() {
-	fetch(noteEndPoint).then((res) => res.json()).then((note) => {
-		console.log(note);
-	});
+	fetch(noteEndPoint)
+		.then(res => res.json())
+		.then(n => {
+			n.data.forEach(note => {
+				const noteMaker =
+					`<h3> ${note.attributes.title} </h3>`;
+
+				document.querySelector('#note-container').innerHTML += noteMaker
+			})
+			console.log(n);
+		});
 }

@@ -6,7 +6,10 @@ const noteEndPoint = 'http://localhost:3000/api/v1/notes';
 document.addEventListener('DOMContentLoaded', () => {
 	console.log('Hello Level Two');
 	getCategories();
-	getNotes();
+
+	const createCatForm = document.querySelector('#create-category');
+
+	createCatForm.addEventListener('submit', (e) => createForHandlerCategory(e));
 });
 
 function getCategories() {
@@ -14,13 +17,46 @@ function getCategories() {
 		.then(res => res.json())
 		.then(cat => {
 			cat.data.forEach(category => {
-				const categoryMaker = `
-				<h3> ${category.attributes.name} </h3>
-				 `;
-
-				document.querySelector('#category-container').innerHTML += categoryMaker
+				console.log(cat)
+				let newCat = new Category(category, category.attributes);
+				//debugger
+				document.querySelector('#category-container').innerHTML += newCat.renderCategory();
 			})
-			console.log(cat);
+			console.log("layer 5 ");
+		});
+	getNotes();
+
+	//const createPlayerForm = document.querySelector('button');
+
+	//createPlayerForm.addEventListener('click', (e) => createForHandlerNote(e));
+}
+
+function createForHandlerCategory(e) {
+	e.preventDefault();
+	console.log(e)
+	//debugger
+	const catName = document.querySelector('#input-name').value;
+	console.log(catInput)
+	postFetchCat(catName);
+}
+
+function postFetchCat(catInput) {
+
+	fetch(categoryEndPoint, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify(catInput)
+	})
+		.then(res => res.json())
+		.then(cat => {
+			//debugger
+			const catData = cat.data;
+			let newCategory = new Category(catData, catData.attributes);
+
+			document.querySelector('#category-container').innerHTML += newCategory.renderCategory();
 		});
 }
 
@@ -28,12 +64,17 @@ function getNotes() {
 	fetch(noteEndPoint)
 		.then(res => res.json())
 		.then(n => {
-			n.data.forEach(note => {
-				const noteMaker =
-					`<h3> ${note.attributes.title} </h3>`;
+			//debugger
+			n.data.forEach((note) => {
+				//debugger
+				console.log("nextlayer")
+				console.log(note)
+				let newNote = new Note(note, note.attributes);
 
-				document.querySelector('#note-container').innerHTML += noteMaker
-			})
-			console.log(n);
+				//debugger
+
+				//document.querySelector('#note-container').innerHTML += newNote.renderNotes();
+			});
+
 		});
 }

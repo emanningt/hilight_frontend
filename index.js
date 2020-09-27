@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function getCategories() {
 	fetch(categoryEndPoint)
-		.then(res => res.json())
-		.then(cat => {
+		.then((res) => res.json())
+		.then((cat) => {
 			cat.data.forEach(category => {
 				console.log(cat)
 				let newCat = new Category(category, category.attributes);
@@ -34,24 +34,25 @@ function getCategories() {
 function createForHandlerCategory(e) {
 	e.preventDefault();
 	console.log(e)
-	//debugger
 	const catName = document.querySelector('#input-name').value;
-	console.log(catInput)
+	console.log(catName)
 	postFetchCat(catName);
 }
 
-function postFetchCat(catInput) {
-
+function postFetchCat(name) {
+	console.log(name)
 	fetch(categoryEndPoint, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json'
+			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(catInput)
+		body: JSON.stringify({
+			name: name
+		})
 	})
-		.then(res => res.json())
-		.then(cat => {
+		.then((res) => res.json())
+		.then((cat) => {
+			console.log(cat)
 			//debugger
 			const catData = cat.data;
 			let newCategory = new Category(catData, catData.attributes);
@@ -62,17 +63,17 @@ function postFetchCat(catInput) {
 
 function getNotes() {
 	fetch(noteEndPoint)
-		.then(res => res.json())
-		.then(n => {
+		.then((res) => res.json())
+		.then((n) => {
 			//debugger
-			n.data.forEach((note) => {
+			n.data.forEach(note => {
 				//debugger
 				console.log("nextlayer")
 				console.log(note)
 				let newNote = new Note(note, note.attributes);
 
+				let note_cat = note.attributes.category_id
 				//debugger
-
 				//document.querySelector('#note-container').innerHTML += newNote.renderNotes();
 			});
 

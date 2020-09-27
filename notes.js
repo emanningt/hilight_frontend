@@ -15,7 +15,7 @@ class Note {
         <div data-id=${this.id}>
         <h3>Title: ${this.title} </h3>
         <h3>Content: ${this.content} </h3>
-        </div>`
+        </div>`;
     }
 }
 

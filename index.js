@@ -4,7 +4,7 @@ const categoryEndPoint = 'http://localhost:3000/api/v1/categories';
 const noteEndPoint = 'http://localhost:3000/api/v1/notes';
 
 document.addEventListener('DOMContentLoaded', () => {
-	console.log('Hello Level Two');
+
 	getCategories();
 
 	const createCatForm = document.querySelector('#create-category');
@@ -17,18 +17,20 @@ function getCategories() {
 		.then((res) => res.json())
 		.then((cat) => {
 			cat.data.forEach(category => {
-				console.log(cat)
+				//console.log(cat)
+
 				let newCat = new Category(category, category.attributes);
+
 				//debugger
 				document.querySelector('#category-container').innerHTML += newCat.renderCategory();
 			})
-			console.log("layer 5 ");
-		});
-	getNotes();
+			//console.log("layer 5 ");
+			getNotes();
+			const createPlayerForm = document.querySelector('#create-note');
 
-	//const createPlayerForm = document.querySelector('button');
+			createPlayerForm.addEventListener('submit', (e) => createForHandlerNote(e));
+		})
 
-	//createPlayerForm.addEventListener('click', (e) => createForHandlerNote(e));
 }
 
 function createForHandlerCategory(e) {
@@ -52,7 +54,7 @@ function postFetchCat(name) {
 	})
 		.then((res) => res.json())
 		.then((cat) => {
-			console.log(cat)
+			//console.log(cat)
 			//debugger
 			const catData = cat.data;
 			let newCategory = new Category(catData, catData.attributes);
@@ -64,18 +66,32 @@ function postFetchCat(name) {
 function getNotes() {
 	fetch(noteEndPoint)
 		.then((res) => res.json())
-		.then((n) => {
+		.then((notes) => {
 			//debugger
-			n.data.forEach(note => {
+			notes.data.forEach(note => {
 				//debugger
-				console.log("nextlayer")
-				console.log(note)
-				let newNote = new Note(note, note.attributes);
+				let newNote = new Note(note);
+				let noteCat = note.attributes.category_id
 
-				let note_cat = note.attributes.category_id
-				//debugger
-				//document.querySelector('#note-container').innerHTML += newNote.renderNotes();
-			});
 
-		});
+				document.querySelector(`#note-content-${noteCat}`).innerHTML += newNote.renderNotes();
+			})
+
+		})
+	//.catch(error => alert(error.message));
+}
+
+function createForHandlerNote(e) {
+	e.preventDefault();
+	//debugger
+	const noteTitle = document.querySelector('#note-name').value;
+	console.log(noteTitle)
+	postFetchNote(noteTitle);
+}
+
+function postFetchNote(title) {
+	console.log(title)
+	//debugger
+	fetch(noteEndPoint)
+
 }

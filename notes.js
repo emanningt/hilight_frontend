@@ -1,11 +1,13 @@
 class Note {
 
-    constructor(note) {
+    constructor(note, noteAttributes) {
+
         //debugger
         this.id = note.id;
+
         this.title = note.attributes.title;
-        this.content = note.attributes.content;
-        this.category_id = note.attributes.category_id;
+        this.content = noteAttributes.content;
+        this.category_id = noteAttributes.category_id;
 
         Note.all.push(this)
     }

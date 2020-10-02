@@ -13,14 +13,15 @@ class Category {
 		return `
 		
     	<div id=${this.id}>
-		<h3>${this.name} </h3>
+		<h2>${this.name} </h3>
 		</div>
 		<div id="note-content-${this.id}">
 		
-		<form id="create-note-${this.id}" data-id="${this.id}">
-		<input id="note-name" data-id=${this.id} type="text" name="name" value="" placeholder="Note Title" class="input-text">
+		<form id="create-note" data-id="${this.id}">
+		<input id="note-name" data-id=${this.id} type="text" name="name" value="" placeholder="Note Title" class="input-text"><br /><br/>
+		<textarea id="content" style="margin: 0px; width: 212px; height: 79px;" cols="20" name="comments" rows="5">Description</textarea>
 		<br> </br>
-		<button class="input-" data-id=${this.id}>Add Note</button>
+		<button class="input" data-id=${this.id}>Add Note</button>
 		</form>
 		</div>
 		

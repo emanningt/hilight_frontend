@@ -26,9 +26,19 @@ function getCategories() {
 			})
 			//console.log("layer 5 ");
 			getNotes();
-			const createPlayerForm = document.querySelector('#create-note');
+			cat.data.forEach(category => {
 
-			createPlayerForm.addEventListener('submit', (e) => createForHandlerNote(e));
+				//debugger
+				let catId = category.id
+
+				const getButtons = document.querySelector('#button');
+				//debugger
+				const createPlayerForm = document.querySelector(`#note-content-${catId}`);
+				debugger
+				createPlayerForm.addEventListener('submit', (e) => createForHandlerNote(e));
+
+			})
+
 		})
 
 }
@@ -70,11 +80,11 @@ function getNotes() {
 			//debugger
 			notes.data.forEach(note => {
 				//debugger
-				let newNote = new Note(note);
-				let noteCat = note.attributes.category_id
+				let newNote = new Note(note, note.attributes);
 
 
-				document.querySelector(`#note-content-${noteCat}`).innerHTML += newNote.renderNotes();
+
+				document.querySelector(`#note-content-${newNote.category_id}`).innerHTML += newNote.renderNotes();
 			})
 
 		})
@@ -83,15 +93,40 @@ function getNotes() {
 
 function createForHandlerNote(e) {
 	e.preventDefault();
-	//debugger
 	const noteTitle = document.querySelector('#note-name').value;
-	console.log(noteTitle)
-	postFetchNote(noteTitle);
+	const noteContent = document.querySelector('#content').value;
+	const noteCategoryId = document.querySelector('#create-note').dataset.id;
+	//debugger
+	console.log(noteCategoryId);
+
+	postFetchNote(noteTitle, noteContent, noteCategoryId);
 }
 
-function postFetchNote(title) {
-	console.log(title)
+function postFetchNote(title, content, category_id) {
+	console.log(title, content, category_id)
 	//debugger
-	fetch(noteEndPoint)
+	fetch(noteEndPoint, {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			title: title,
+			content: content,
+			category_id: category_id
+		})
+	})
+		.then((res) => res.json())
+		.then((note) => {
+			console.log(note)
+
+			let noteData = note.data
+			let newNote = new Note(noteData, noteData.attributes);
+			//debugger
+
+
+
+			document.querySelector(`#note-content-${noteData.attributes.category_id}`).innerHTML += newNote.renderNotes();
+		})
 
 }

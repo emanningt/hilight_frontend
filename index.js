@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	getCategories();
 
-	const createCatForm = document.querySelector('#create-category');
-
-	createCatForm.addEventListener('submit', (e) => createForHandlerCategory(e));
+	document.addEventListener('submit', createForHandlerCategory);
 });
 
 function getCategories() {
@@ -19,25 +17,27 @@ function getCategories() {
 			cat.data.forEach(category => {
 				//console.log(cat)
 
-				let newCat = new Category(category, category.attributes);
-
+				let newCat = new Category(category.attributes);
+				//debugger
+				category.attributes.notes.forEach(note => {
+					//debugger
+					let newNote = new Note(note);
+					newCat.notes.push(newNote);
+					//debugger
+				})
 				//debugger
 				document.querySelector('#category-container').innerHTML += newCat.renderCategory();
+				if (newCat.notes.length > 0) {
+					//debugger
+					newCat.notes.forEach(note => {
+						//debugger
+						document.querySelector(`#note-content-${note.category_id}`).innerHTML += note.renderNote();
+					});
+
+				};
 			})
-			//console.log("layer 5 ");
-			getNotes();
-			cat.data.forEach(category => {
 
-				//debugger
-				let catId = category.id
-
-				const getButtons = document.querySelector('#button');
-				//debugger
-				const createPlayerForm = document.querySelector(`#note-content-${catId}`);
-				debugger
-				createPlayerForm.addEventListener('submit', (e) => createForHandlerNote(e));
-
-			})
+			document.addEventListener('submit', createForHandlerNote)
 
 		})
 
@@ -46,7 +46,9 @@ function getCategories() {
 function createForHandlerCategory(e) {
 	e.preventDefault();
 	console.log(e)
-	const catName = document.querySelector('#input-name').value;
+	//debugger
+	const catName = e.target.elements.title.value;
+	//debugger
 	console.log(catName)
 	postFetchCat(catName);
 }
@@ -67,35 +69,18 @@ function postFetchCat(name) {
 			//console.log(cat)
 			//debugger
 			const catData = cat.data;
-			let newCategory = new Category(catData, catData.attributes);
+			let newCategory = new Category(catData.attributes);
 
 			document.querySelector('#category-container').innerHTML += newCategory.renderCategory();
 		});
 }
 
-function getNotes() {
-	fetch(noteEndPoint)
-		.then((res) => res.json())
-		.then((notes) => {
-			//debugger
-			notes.data.forEach(note => {
-				//debugger
-				let newNote = new Note(note, note.attributes);
-
-
-
-				document.querySelector(`#note-content-${newNote.category_id}`).innerHTML += newNote.renderNotes();
-			})
-
-		})
-	//.catch(error => alert(error.message));
-}
-
 function createForHandlerNote(e) {
 	e.preventDefault();
-	const noteTitle = document.querySelector('#note-name').value;
-	const noteContent = document.querySelector('#content').value;
-	const noteCategoryId = document.querySelector('#create-note').dataset.id;
+	//debugger
+	const noteTitle = e.target.elements.name.value;
+	const noteContent = e.target.elements.content.value;
+	const noteCategoryId = e.target.dataset.id;
 	//debugger
 	console.log(noteCategoryId);
 
@@ -120,13 +105,14 @@ function postFetchNote(title, content, category_id) {
 		.then((note) => {
 			console.log(note)
 
-			let noteData = note.data
-			let newNote = new Note(noteData, noteData.attributes);
 			//debugger
+			let newNote = new Note(note.data.attributes);
+			// add the new note to the category 
+			debugger
 
 
 
-			document.querySelector(`#note-content-${noteData.attributes.category_id}`).innerHTML += newNote.renderNotes();
+			document.querySelector(`#note-content-${newNote.category_id}`).innerHTML += newNote.renderNote();
 		})
 
 }

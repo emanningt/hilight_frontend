@@ -1,9 +1,10 @@
 class Category {
-	constructor(categoryData, categoryAttributes) {
+	constructor(categoryAttributes) {
 		//debugger
 		console.log("layer 4 ");
-		this.id = categoryData.id;
+		this.id = categoryAttributes.id;
 		this.name = categoryAttributes.name;
+		this.notes = [];
 		//debugger
 
 		Category.all.push(this);
@@ -15,14 +16,14 @@ class Category {
     	<div id=${this.id}>
 		<h2>${this.name} </h3>
 		</div>
-		<div id="note-content-${this.id}">
-		
+
 		<form id="create-note" data-id="${this.id}">
 		<input id="note-name" data-id=${this.id} type="text" name="name" value="" placeholder="Note Title" class="input-text"><br /><br/>
-		<textarea id="content" style="margin: 0px; width: 212px; height: 79px;" cols="20" name="comments" rows="5">Description</textarea>
+		<textarea id="content" style="margin: 0px; width: 212px; height: 79px;" cols="20" name="comments" rows="5"></textarea>
 		<br> </br>
-		<button class="input" data-id=${this.id}>Add Note</button>
+		<input id='create-button' type="submit" name="submit" value="hilight-it" class="submit">
 		</form>
+		<div id="note-content-${this.id}">
 		</div>
 		
 		`;

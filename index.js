@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	getCategories();
 
 	document.addEventListener('submit', createForHandlerCategory);
+	//debugger
 });
 
 function getCategories() {
 	fetch(categoryEndPoint)
-		.then((res) => res.json())
+		.then((response) => response.json())
 		.then((cat) => {
 			cat.data.forEach(category => {
 				//console.log(cat)
@@ -27,34 +28,33 @@ function getCategories() {
 				})
 				//debugger
 				document.querySelector('#category-container').innerHTML += newCat.renderCategory();
-				if (newCat.notes.length > 0) {
+				//debugger
+				for (let i = 0; i < newCat.notes.length; i++) {
 					//debugger
-					newCat.notes.forEach(note => {
-						//debugger
-						document.querySelector(`#note-content-${note.category_id}`).innerHTML += note.renderNote();
-					});
+					if (newCat.notes[i]) {
+						document.querySelector(`#note-content-${newCat.id}`).innerHTML += newCat.notes[i].renderNote();
+					}
 
-				};
+				}
 			})
-
+			//debugger
 			document.addEventListener('submit', createForHandlerNote)
-
+			//debugger
 		})
 
 }
 
 function createForHandlerCategory(e) {
 	e.preventDefault();
-	console.log(e)
 	//debugger
 	const catName = e.target.elements.title.value;
 	//debugger
-	console.log(catName)
 	postFetchCat(catName);
+
 }
 
 function postFetchCat(name) {
-	console.log(name)
+
 	fetch(categoryEndPoint, {
 		method: 'POST',
 		headers: {
@@ -64,7 +64,7 @@ function postFetchCat(name) {
 			name: name
 		})
 	})
-		.then((res) => res.json())
+		.then((response) => response.json())
 		.then((cat) => {
 			//console.log(cat)
 			//debugger
@@ -73,6 +73,7 @@ function postFetchCat(name) {
 
 			document.querySelector('#category-container').innerHTML += newCategory.renderCategory();
 		});
+
 }
 
 function createForHandlerNote(e) {
@@ -82,13 +83,11 @@ function createForHandlerNote(e) {
 	const noteContent = e.target.elements.content.value;
 	const noteCategoryId = e.target.dataset.id;
 	//debugger
-	console.log(noteCategoryId);
 
 	postFetchNote(noteTitle, noteContent, noteCategoryId);
 }
 
 function postFetchNote(title, content, category_id) {
-	console.log(title, content, category_id)
 	//debugger
 	fetch(noteEndPoint, {
 		method: "POST",
@@ -101,18 +100,18 @@ function postFetchNote(title, content, category_id) {
 			category_id: category_id
 		})
 	})
-		.then((res) => res.json())
+		.then((response) => response.json())
 		.then((note) => {
-			console.log(note)
 
 			//debugger
 			let newNote = new Note(note.data.attributes);
 			// add the new note to the category 
-			debugger
+			//debugger
 
 
 
 			document.querySelector(`#note-content-${newNote.category_id}`).innerHTML += newNote.renderNote();
+
 		})
 
 }

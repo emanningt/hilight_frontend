@@ -1,7 +1,6 @@
 class Category {
 	constructor(categoryAttributes) {
 		//debugger
-		console.log("layer 4 ");
 		this.id = categoryAttributes.id;
 		this.name = categoryAttributes.name;
 		this.notes = [];

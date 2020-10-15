@@ -18,6 +18,7 @@ class Note {
         <h3>Title: ${this.title} </h3>
         <h3>Content: </h3>
        <p> ${this.content} </p>
+    
         </div>`;
     }
 }

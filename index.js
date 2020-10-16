@@ -4,13 +4,13 @@ const categoryEndPoint = 'http://localhost:3000/api/v1/categories';
 const noteEndPoint = 'http://localhost:3000/api/v1/notes';
 
 document.addEventListener('DOMContentLoaded', () => {
+	const searchButton = document.querySelector('#search-button')
+	searchButton.addEventListener('click', searchBar);
+
 	getCategories();
 
 	document.addEventListener('submit', createForHandlerCategory);
 
-	const searchButton = document.querySelector('#search-button')
-
-	searchButton.addEventListener('click', (e) => searchBar(e));
 	//debugger
 });
 
@@ -122,22 +122,31 @@ function postFetchNote(title, content, category_id) {
 
 }
 
-function searchBar(e) {
+function searchBar() {
 	console.log("click")
 	const searchValue = document.querySelector('#search-bar').value
 	const allCategories = Category.all
 
-	const catInput = allCategories.filter(cat => {
+	const searchCat = allCategories.filter(cat => {
 		const category = cat.name.toLowerCase();
 		//debugger
 		return category.includes(searchValue.toLowerCase())
 	})
-	console.log(catInput)
-	const element = document.createElement("div");
+	console.log(searchCat)
+	for (i = 0; i < searchCat.length; i++) {
+		console.log(searchCat[i].name)
+		const searchedCat = searchCat[i].name
+		const searchDiv = document.getElementById("search-container");
 
+		const searchedList = document.createElement('li');
+		searchedList.innerHTML = searchedCat;
+		searchedList.classList.add('searched-category');
 
-	debugger
+		searchDiv.appendChild(searchedList);
+	}
+	//debugger
 	//debugger
 	//if O passed in 
 	// i want the dom to update 
 }
+

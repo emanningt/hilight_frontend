@@ -1,0 +1,12 @@
+body {
+    max-width: 500px;
+    margin: auto;
+}
+
+h1 {
+    color: teal;
+}
+
+h2 {
+    color: rgb(159, 7, 7);
+}

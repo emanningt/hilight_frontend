@@ -4,10 +4,13 @@ const categoryEndPoint = 'http://localhost:3000/api/v1/categories';
 const noteEndPoint = 'http://localhost:3000/api/v1/notes';
 
 document.addEventListener('DOMContentLoaded', () => {
-
 	getCategories();
 
 	document.addEventListener('submit', createForHandlerCategory);
+
+	const searchButton = document.querySelector('#search-button')
+
+	searchButton.addEventListener('click', (e) => searchBar(e));
 	//debugger
 });
 
@@ -15,9 +18,10 @@ function getCategories() {
 	fetch(categoryEndPoint)
 		.then((response) => response.json())
 		.then((cat) => {
+			//debugger
 			cat.data.forEach(category => {
 				//console.log(cat)
-
+				//debugger
 				let newCat = new Category(category.attributes);
 				//debugger
 				category.attributes.notes.forEach(note => {
@@ -28,6 +32,7 @@ function getCategories() {
 				})
 				//debugger
 				document.querySelector('#category-container').innerHTML += newCat.renderCategory();
+
 				//debugger
 				for (let i = 0; i < newCat.notes.length; i++) {
 					//debugger
@@ -72,6 +77,7 @@ function postFetchCat(name) {
 			let newCategory = new Category(catData.attributes);
 
 			document.querySelector('#category-container').innerHTML += newCategory.renderCategory();
+
 		});
 
 }
@@ -114,4 +120,24 @@ function postFetchNote(title, content, category_id) {
 
 		})
 
+}
+
+function searchBar(e) {
+	console.log("click")
+	const searchValue = document.querySelector('#search-bar').value
+	const allCategories = Category.all
+
+	const catInput = allCategories.filter(cat => {
+		const category = cat.name.toLowerCase();
+		//debugger
+		return category.includes(searchValue.toLowerCase())
+	})
+	console.log(catInput)
+	const element = document.createElement("div");
+
+
+	debugger
+	//debugger
+	//if O passed in 
+	// i want the dom to update 
 }

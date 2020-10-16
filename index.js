@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const searchButton = document.querySelector('#search-button')
 	searchButton.addEventListener('click', searchBar);
 
+	// const clearButton = document.querySelector('#clear-button')
+	// //debugger
+	// clearButton.addEventListener('click', removeSearched);
+
 	getCategories();
 
 	document.addEventListener('submit', createForHandlerCategory);
@@ -148,5 +152,12 @@ function searchBar() {
 	//debugger
 	//if O passed in 
 	// i want the dom to update 
+}
+
+function removeButton() {
+	const list = document.querySelector('#search-container')
+	while (list.hasChildNodes()) {
+		list.removeChild(list.firstChild);
+	}
 }
 

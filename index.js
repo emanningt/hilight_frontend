@@ -4,16 +4,12 @@ const categoryEndPoint = 'http://localhost:3000/api/v1/categories';
 const noteEndPoint = 'http://localhost:3000/api/v1/notes';
 
 document.addEventListener('DOMContentLoaded', () => {
-	const searchButton = document.querySelector('#search-button')
-	searchButton.addEventListener('click', searchBar);
-
-	// const clearButton = document.querySelector('#clear-button')
-	// //debugger
-	// clearButton.addEventListener('click', removeSearched);
-
 	getCategories();
 
 	document.addEventListener('submit', createForHandlerCategory);
+
+	const searchButton = document.querySelector('#search-button')
+	searchButton.addEventListener('click', searchBar);
 
 	//debugger
 });
@@ -155,9 +151,10 @@ function searchBar() {
 }
 
 function removeButton() {
-	const list = document.querySelector('#search-container')
-	while (list.hasChildNodes()) {
-		list.removeChild(list.firstChild);
+	const div = document.querySelector('#search-container')
+	while (div.hasChildNodes()) {
+		div.removeChild(div.firstChild);
 	}
 }
+
 
